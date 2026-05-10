@@ -11,6 +11,8 @@ export interface HistoryPoint {
 export function useMonitorData() {
   const [counterInput, setCounterInput] = useState(0);
   const [counterOutput, setCounterOutput] = useState(0);
+  const [rpmInput, setRpmInput] = useState(0);      // D200 - RPM Motor Conveyor
+  const [rpmOutput, setRpmOutput] = useState(0);     // D201 - RPM Motor Rotator
   const [isConnected, setIsConnected] = useState(socket.connected);
   
   // State untuk Uptime Frontend
@@ -55,9 +57,13 @@ export function useMonitorData() {
       console.log("Socket Update Received:", payload);
       const input = payload.counterInput ?? payload.input ?? 0;
       const output = payload.counterOutput ?? payload.output ?? 0;
-      
+      const rpmIn = payload.rpmInput ?? 0;
+      const rpmOut = payload.rpmOutput ?? 0;
+
       setCounterInput(input);
       setCounterOutput(output);
+      setRpmInput(rpmIn);
+      setRpmOutput(rpmOut);
       
       setHistory(prev => {
         const newPoint = { timestamp: Date.now(), input, output };
@@ -127,11 +133,13 @@ export function useMonitorData() {
     return () => clearInterval(interval);
   }, [isConnected]);
 
-  return { 
-    counterInput, 
-    counterOutput, 
-    systemUptime, 
-    isConnected, 
-    history 
+  return {
+    counterInput,
+    counterOutput,
+    rpmInput,
+    rpmOutput,
+    systemUptime,
+    isConnected,
+    history
   };
 }

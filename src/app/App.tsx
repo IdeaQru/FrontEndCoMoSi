@@ -46,10 +46,12 @@ type PageType = 'dashboard' | 'monitor' | 'logs';
 function App() {
   // -- REAL DATA FROM BACKEND (SOCKET / CURRENT) --
   // Hook ini menangani data Real-time untuk Dashboard & Monitor
-  const { 
-    counterInput, 
-    counterOutput, 
-    systemUptime, 
+  const {
+    counterInput,
+    counterOutput,
+    rpmInput,      // D200 - RPM Motor Conveyor
+    rpmOutput,      // D201 - RPM Motor Rotator
+    systemUptime,
     isConnected,
     history // History pendek (RAM) khusus untuk TrendChart live
   } = useMonitorData();
@@ -217,19 +219,19 @@ function App() {
                         <div className="w-10 h-10 rounded-lg bg-[#2196f3]/10 flex items-center justify-center">
                           <TrendingUp className="w-5 h-5 text-[#2196f3]" />
                         </div>
-                        <span className="text-sm text-[var(--ps-text-secondary)]">📥 INPUT SENSOR</span>
+                        <span className="text-sm text-[var(--ps-text-secondary)]">📥 RPM MOTOR ROLLER CONVEYOR</span>
                       </div>
                       <motion.div
-                        key={counterInput}
+                        key={rpmInput}
                         initial={{ scale: 1.1, color: '#2196f3' }}
                         animate={{ scale: 1, color: 'var(--ps-text-primary)' }}
                         className="mb-2"
                       >
                         <p className="text-5xl sm:text-6xl font-bold" style={{ color: 'inherit' }}>
-                          {counterInput.toLocaleString()}
+                          {rpmInput.toLocaleString()}
                         </p>
                       </motion.div>
-                      <p className="text-xs text-[var(--ps-text-secondary)]">Total Counts</p>
+                      <p className="text-xs text-[var(--ps-text-secondary)]">RPM</p>
                     </div>
                   </PSCard>
 
@@ -243,19 +245,19 @@ function App() {
                         <div className="w-10 h-10 rounded-lg bg-[#ff9800]/10 flex items-center justify-center">
                           <TrendingDown className="w-5 h-5 text-[#ff9800]" />
                         </div>
-                        <span className="text-sm text-[var(--ps-text-secondary)]">📤 OUTPUT SENSOR</span>
+                        <span className="text-sm text-[var(--ps-text-secondary)]">📤 RPM MOTOR ROTATOR</span>
                       </div>
                       <motion.div
-                        key={counterOutput}
+                        key={rpmOutput}
                         initial={{ scale: 1.1, color: '#ff9800' }}
                         animate={{ scale: 1, color: 'var(--ps-text-primary)' }}
                         className="mb-2"
                       >
                         <p className="text-5xl sm:text-6xl font-bold" style={{ color: 'inherit' }}>
-                          {counterOutput.toLocaleString()}
+                          {rpmOutput.toLocaleString()}
                         </p>
                       </motion.div>
-                      <p className="text-xs text-[var(--ps-text-secondary)]">Total Counts</p>
+                      <p className="text-xs text-[var(--ps-text-secondary)]">RPM</p>
                     </div>
                   </PSCard>
                 </div>
